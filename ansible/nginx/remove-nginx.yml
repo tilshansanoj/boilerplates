@@ -1,0 +1,19 @@
+- name: Remove Nginx and its Configuration
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Stop Nginx service
+      service:
+        name: nginx
+        state: stopped
+
+    - name: Remove Nginx package
+      apt:
+        name: nginx
+        state: absent
+
+    - name: Remove Nginx configuration files
+      file:
+        path: /etc/nginx
+        state: absent
