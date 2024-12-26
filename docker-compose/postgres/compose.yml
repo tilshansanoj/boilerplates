@@ -1,0 +1,32 @@
+services:
+
+  postgres:
+    image: postgres:15.1-alpine
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U "${POSTGRES_USER:-postgres}"']
+      start_period: 30s
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+    networks:
+      - yournetwork
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+
+networks:
+  yournetwork:
+    driver: overlay
+
+
+volumes:
+  postgres_data:
+    driver: local
