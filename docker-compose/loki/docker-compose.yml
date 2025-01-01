@@ -1,0 +1,12 @@
+volumes:
+  loki-data:
+    driver: local
+services:
+  loki:
+    image: grafana/loki:3.0.0                       
+    volumes:
+      - ./loki-config.yaml:/mnt/config/loki-config.yaml 
+      - loki-data:/etc/loki
+    ports:
+      - "3100:3100"                                 
+    command: -config.file=/mnt/config/loki-config.yaml 
