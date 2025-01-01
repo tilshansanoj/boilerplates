@@ -1,0 +1,9 @@
+services:
+  promtail:
+    image: grafana/promtail:3.0.0 
+    volumes:
+      - ./promtail-config.yaml:/mnt/config/promtail-config.yaml # Mounts the Promtail configuration file.
+      - /var/log:/var/log                           # Mounts the host's log directory.
+    depends_on:
+      - loki                                       # Ensures Promtail starts after Loki.
+    command: -config.file=/mnt/config/promtail-config.yaml # Runs Promtail with the specified configuration file.
